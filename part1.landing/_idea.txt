@@ -1,0 +1,20 @@
+八种颜色，每种颜色出现的次数即为这一阶段的密码。
+
+电阻阻值代表顺序：棕红橙黄绿蓝紫灰。
+
+['#673424', '#da1313', '#fa7e23', '#fed71a', '#5bae23', '#15559a', '#7e1671', '#856d72']
+49329642
+
+<?php
+$colorRepeat = array_combine(
+	['#673424', '#da1313', '#fa7e23', '#fed71a', '#5bae23', '#15559a', '#7e1671', '#856d72'],
+	array_map('intval', str_split('49329642'))
+);
+$final = [];
+while(!empty($colorRepeat = array_filter($colorRepeat, fn($i) => $i > 0))) {
+	$final[] = array_keys($colorRepeat);
+	$colorRepeat = array_map(fn($i) => --$i, $colorRepeat);
+}
+var_dump($final);
+
+echo json_encode(array_merge(...$final));
