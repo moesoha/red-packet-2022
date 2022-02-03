@@ -1,0 +1,21 @@
+[Unit]
+Description=Named network namespace %i
+#After=network-pre.target
+Before=network-pre.target
+Wants=network-pre.target
+
+[Install]
+WantedBy=network-online.target
+WantedBy=multi-user.target
+
+[Service]
+PrivateNetwork=yes
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStartPre=-/usr/bin/env ip netns delete %i
+ExecStart=/usr/bin/flock --no-fork -- /var/run/netns.lock /usr/bin/env ip netns add %i
+ExecStart=/usr/bin/env umount /var/run/netns/%i
+ExecStart=/usr/bin/env mount --bind /proc/self/ns/net /var/run/netns/%i
+ExecStart=/usr/bin/env ip netns exec %i sysctl -p
+ExecStop=/usr/bin/env ip netns delete %i

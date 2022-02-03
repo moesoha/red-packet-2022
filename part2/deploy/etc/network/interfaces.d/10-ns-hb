@@ -1,0 +1,6 @@
+auto ns-hb
+iface ns-hb inet6 manual inherits tpl-ns-veth
+	netns hb
+	address-inner 2404:7ac0:6b4:2041:2000:3430:2333:3333/64
+	address-outer 2404:7ac0:6b4:2041::2333/64
+	post-up ip-ns -6 route add dev ns-main default via 2404:7ac0:6b4:2041::2333 || true

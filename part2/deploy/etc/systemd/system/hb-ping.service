@@ -1,0 +1,15 @@
+[Unit]
+Description=RedBag 2022 Ping
+BindsTo=netns@hb.service
+After=network.target netns@hb.service
+JoinsNamespaceOf=netns@hb.service
+
+[Service]
+PrivateNetwork=Yes
+DynamicUser=true
+AmbientCapabilities=CAP_NET_RAW
+ExecStart=/opt/red-packet-2022-ping
+Restart=always
+
+[Install]
+WantedBy=default.target

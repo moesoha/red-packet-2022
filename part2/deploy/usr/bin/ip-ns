@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+if [ -n "$IF_NETNS" ]; then
+	if [ "$1" = "exec" ]; then
+		shift 1
+		ip netns exec "$IF_NETNS" $@
+	else
+		ip -n "$IF_NETNS" $@
+	fi
+else
+	if [ "$1" = "exec" ]; then
+		shift 1
+		$@
+	else
+		ip $@
+	fi
+fi

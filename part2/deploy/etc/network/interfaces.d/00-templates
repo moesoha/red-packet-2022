@@ -1,0 +1,9 @@
+iface tpl-ns-veth inet6 manual
+	pre-up    ip    link add ns-main type veth peer name $IFACE
+	pre-up    ip    link set ns-main netns $IF_NETNS
+	pre-up    ip-ns addr add dev ns-main $IF_ADDRESS_INNER
+	pre-up    ip    addr add dev $IFACE  $IF_ADDRESS_OUTER
+	up        ip-ns link set ns-main up
+	up        ip    link set $IFACE  up
+	post-down ip-ns link del ns-main
+	post-down ip    link del $IFACE
